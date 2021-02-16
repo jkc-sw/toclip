@@ -1,6 +1,6 @@
 # Toclip
 
-This repo holds 2 executables `toclip` and `toclip2`. They take input from
+This repo holds 2 executables `toclip` and `toclipt`. They take input from
 the stdin, or the arguments. And they will send the content to the clipboard.
 
 When `SSH_TTY` is found, `toclip` will send the content to the `SSH_TTY` with
