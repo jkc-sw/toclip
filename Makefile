@@ -5,9 +5,9 @@
 all: install
 
 install:
-	sudo ln -s "$(CURDIR)/toclip" /usr/local/bin/toclip
-	sudo ln -s "$(CURDIR)/toclip" /usr/local/bin/toclipt
+	install -m 0755 -D "$(CURDIR)/toclip" /usr/local/bin/toclip
+	install -m 0755 -D "$(CURDIR)/toclip" /usr/local/bin/toclipt
 
 uninstall:
-	sudo rm /usr/local/bin/toclip
-	sudo rm /usr/local/bin/toclipt
+	rm /usr/local/bin/toclip
+	rm /usr/local/bin/toclipt
