@@ -6,7 +6,7 @@ all: install
 
 install:
 	install -m 0755 -D "$(CURDIR)/toclip" /usr/local/bin/toclip
-	install -m 0755 -D "$(CURDIR)/toclip" /usr/local/bin/toclipt
+	install -m 0755 -D "$(CURDIR)/toclipt" /usr/local/bin/toclipt
 
 uninstall:
 	rm /usr/local/bin/toclip
