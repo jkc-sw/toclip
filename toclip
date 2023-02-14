@@ -1,9 +1,22 @@
 #!/bin/bash
 
+: <<'EOF'
+SOURCE_THESE_VIMS_START
+let @h="yoecho \"\<c-r>\" = \$\<c-r>\"\"\<esc>j"
+echom 'Sourced'
+SOURCE_THESE_VIMS_END
+EOF
+
+echodebug() {
+    if [[ -n "$TOCLIP_DEBUG" ]]; then
+        echo "$@"
+    fi
+}
+
 # function to encode to base64
 to_base64() {
     # find out why that number in: https://sunaku.github.io/tmux-yank-osc52.html
-    echo -n "$(echo -n "$1" | head -c 74994 | base64 -)"
+    echo -n "$(echo -n "$1" | head -c 74994 | base64 -w 0 -)"
 }
 
 # function to wrap osc52
@@ -48,6 +61,8 @@ if [[ -z $content ]]; then
     exit 1
 fi
 
+echodebug "content = $content"
+
 # handle either local or remote
 if [[ -z $SSH_TTY ]]; then
 
@@ -73,7 +88,9 @@ if [[ -z $SSH_TTY ]]; then
 else
     # remote, have to wrap osc52
     content="$(to_base64 "$content")"
+    echodebug "content = $content"
     content="$(wrap_osc52 "$content")"
+    echodebug "content = $content"
 
     # for remote, there are couple conditions to think about
     # TODO make sure all following cases were covered
@@ -90,9 +107,10 @@ else
     # if we have detected to have remote tmux session
     if [[ -n $TOCLIP_HOST_TMUX ]]; then
         content="$(wrap_tmux "$content")"
+        echodebug "content = $content"
     fi
 
     # when we have ssh tty available, just use it
-    echo -ne "$content" > $SSH_TTY
+    echo -ne "$content" > "$SSH_TTY"
 
 fi
